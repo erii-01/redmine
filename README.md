@@ -143,7 +143,7 @@ sudo journalctl -u otel-collector -f
 
 - Ve a tu instancia de Grafana Cloud
 - Navega a **Explore** > **Tempo** para ver trazas
-- Busca trazas del servicio "redmine"
+- Busca trazas del servicio "redmine-app"
 
 ## 🔧 Troubleshooting
 
