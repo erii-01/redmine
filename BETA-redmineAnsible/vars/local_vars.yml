@@ -1,0 +1,7 @@
+# Variables para despliegue local con Vagrant
+# Sobrescribe las variables de AWS para usar MySQL local
+
+mysql_server: localhost
+mysql_user: redmine
+mysql_password: redmine123
+mysql_database: redmine

@@ -1,0 +1,10 @@
+- name: Reload systemd
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: yes
+
+- name: Restart Redmine
+  become: true
+  ansible.builtin.systemd:
+    name: redmine.service
+    state: restarted

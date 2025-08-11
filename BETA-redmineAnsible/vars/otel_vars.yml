@@ -1,0 +1,45 @@
+# /etc/otel-collector/config.yaml
+otel_collector_receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: "0.0.0.0:4317"
+      http:
+        endpoint: "0.0.0.0:4318"
+
+otel_collector_processors:
+  batch:
+
+# Configuración del Colector de OpenTelemetry para Grafana Cloud
+otel_collector_exporters:
+  otlp/grafanacloud_traces:
+    endpoint: "tempo-prod-17-prod-sa-east-1.grafana.net:443"
+    auth:
+      authenticator: basicauth/grafanacloud
+
+  prometheusremotewrite/grafanacloud_metrics:
+    endpoint: "https://prometheus-prod-40-prod-sa-east-1.grafana.net/api/prom/push"
+    auth:
+      authenticator: basicauth/grafanacloud_metrics
+
+otel_collector_extensions:
+  basicauth/grafanacloud:
+    client_auth:
+      username: "1115635"
+      password: "{{ grafana_tempo_api_token }}"
+  basicauth/grafanacloud_metrics:
+    client_auth:
+      username: "2251285"
+      password: "{{ grafana_metrics_api_token }}"
+
+otel_collector_service:
+  extensions: [basicauth/grafanacloud, basicauth/grafanacloud_metrics]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp/grafanacloud_traces]
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [prometheusremotewrite/grafanacloud_metrics]

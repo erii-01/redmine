@@ -1,0 +1,18 @@
+- name: Crear el archivo inicializador de OpenTelemetry para Redmine
+  become: true
+  ansible.builtin.template:
+    src: opentelemetry.rb.j2
+    dest: "{{ redmine_root }}/config/initializers/opentelemetry.rb"
+    owner: "{{ redmine_user }}"
+    group: "{{ redmine_group }}"
+    mode: "0644"
+  notify: Restart Redmine
+
+# Crear archivo de entorno para que sea leído por el login shell
+- name: Configurar variables de entorno de OpenTelemetry para el shell
+  become: true
+  ansible.builtin.template:
+    src: opentelemetry.sh.j2
+    dest: /etc/profile.d/opentelemetry.sh
+    mode: "0644"
+  notify: Restart Redmine

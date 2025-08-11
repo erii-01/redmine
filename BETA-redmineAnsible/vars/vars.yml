@@ -6,29 +6,29 @@ vagrant_home: /home/vagrant
 redmine_version: 6.0.5
 redmine_root: /opt/redmine
 
+# Variables para la instrumentación de OpenTelemetry
+redmine_otel_service_name: redmine-app
+redmine_environment: beta
+
 # Base de datos
-mysql_root_password: "rootpass123"
+mysql_root_password: rootpass123
 
 #-------------------------
-#mysql_user: "redmine"
-#mysql_password: "redmine123"
-#mysql_server: "terraform-20250728215504682800000003.c4j0ew28ezij.us-east-1.rds.amazonaws.com"
-#---------------------------
+mysql_databases:
+  - name: redmine
+    encoding: utf8mb4
+    collation: utf8mb4_unicode_ci
 
-#mysql_server: "localhost"
-
-#----------------------------
-# mysql_databases:
-#   - name: redmine
-#     encoding: utf8mb4
-#     collation: utf8mb4_unicode_ci
+mysql_user: "redmine"
+mysql_password: "redmine123"
+mysql_server: "localhost"
 #----------------------------
 
 mysql_users:
   - name: redmine
     host: localhost
     password: redmine123
-    priv: "redmine.*:ALL"
+    priv: redmine.*:ALL
 
 # asdf
 asdf_user: root
@@ -36,8 +36,9 @@ asdf_group: redmine
 asdf_dir: /home/redmine/.asdf
 asdf_plugins:
   - name: ruby
-    versions: ["3.2.0"]
-    global: "3.2.0"
+    versions:
+      - 3.2.0
+    global: 3.2.0
 asdf_legacy_version_file: "yes"
 
 # geerlingguy.nginx
@@ -46,9 +47,9 @@ nginx_remove_default_vhost: true
 
 nginx_vhosts:
   - listen: "80"
-    server_name: "mikroways.redmine www.mikroways.redmine"
-    root: "/opt/redmine/public"
-    index: "index.html index.htm"
+    server_name: mikroways.redmine www.mikroways.redmine
+    root: /opt/redmine/public
+    index: index.html index.htm
     extra_parameters: |
       location /assets/ {
           expires max;

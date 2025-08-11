@@ -1,4 +1,12 @@
 ---
+collections:
+  - name: grafana.grafana
+    version: 6.0.3
+
 roles:
   - name: cimon-io.asdf
+    version: v1.1.0
   - name: geerlingguy.nginx
+    version: 3.2.0
+  - name: geerlingguy.mysql
+    version: 5.0.2

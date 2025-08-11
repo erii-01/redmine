@@ -1,4 +1,4 @@
-mysql_server: terraform-20250730130243019700000003.cqh0ak4qkrpy.us-east-1.rds.amazonaws.com
+mysql_server: terraform-20250810203858214200000003.cqh0ak4qkrpy.us-east-1.rds.amazonaws.com
 mysql_user: redmine
 mysql_password: redmine123
 mysql_database: redmine

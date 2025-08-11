@@ -1,0 +1,11 @@
+# /opt/redmine/config/initializers/opentelemetry.rb
+require 'opentelemetry/sdk'
+require 'opentelemetry/exporter/otlp'
+require 'opentelemetry/instrumentation/all'
+
+OpenTelemetry::SDK.configure do |c|
+
+  # El nombre del servicio se define a través de la variable de entorno OTEL_SERVICE_NAME
+  # c.service_name = 'redmine' # No es necesario si se usa la variable de entorno
+  c.use_all() # enables all instrumentation!
+end

@@ -1,0 +1,37 @@
+- hosts: redmine
+  become: yes
+
+  vars_files:
+    - vars/vars.yml
+    - vars/aws_rds_vars.yml
+    - vars/secrets.yml
+    - vars/otel_vars.yml
+
+  tasks:
+    - name: Ejecutar role common
+      include_role:
+        name: common
+
+    - name: Ejecutar role asdf
+      include_role:
+        name: cimon-io.asdf
+
+    - name: Cambiar dueño del directorio .asdf (justo después del role asdf)
+      file:
+        path: /home/redmine/.asdf
+        state: directory
+        recurse: yes
+        owner: redmine
+        group: redmine
+
+    - name: Descargar e instalar redmine
+      include_role:
+        name: redmine
+
+    - name: Ejecutar role geerlingguy.nginx
+      include_role:
+        name: geerlingguy.nginx
+
+    - name: Ejecutar role opentelemetry_collector desde la colección de Grafana
+      include_role:
+        name: grafana.grafana.opentelemetry_collector
