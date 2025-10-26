@@ -29,7 +29,7 @@ jobs:
           output_file: 'checkov-report.sarif'
 
       - name: Upload SARIF to GitHub Security
-        if: always() && hashFiles('checkov-report.sarif') != ''
+        if: always()
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: 'checkov-report.sarif'
