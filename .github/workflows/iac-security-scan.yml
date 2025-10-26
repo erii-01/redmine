@@ -17,7 +17,13 @@ jobs:
         uses: aquasecurity/tfsec-sarif-action@v0.1.0
         with:
           working_directory: ./infra
+          sarif_file: tfsec.sarif
           soft_fail: true
+      
+      - name: Upload TFSec SARIF file
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: tfsec.sarif   
 
       - name: Run Checkov
         uses: bridgecrewio/checkov-action@v12
@@ -28,8 +34,8 @@ jobs:
           output_format: sarif
           output_file: checkov-report.sarif
 
-      - name: Upload SARIF to GitHub Security
+      - name: Upload Checkov SARIF to GitHub Security
         if: always()
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: checkov-report.sarif
+          sarif_file: results.sarif
