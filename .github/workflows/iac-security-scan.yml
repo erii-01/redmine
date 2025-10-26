@@ -14,7 +14,7 @@ jobs:
           terraform_version: 1.12.2
 
       - name: Run TFSec
-        uses: aquasecurity/tfsec-action@v1
+        uses: aquasecurity/tfsec-sarif-action@v0.1.0
         with:
           working_directory: ./infra
           soft_fail: true
