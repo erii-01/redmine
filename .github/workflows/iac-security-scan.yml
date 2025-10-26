@@ -32,4 +32,4 @@ jobs:
         if: always() && hashFiles('checkov-report.sarif') != ''
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: checkov-report.sarif
+          sarif_file: 'checkov-report.sarif'
