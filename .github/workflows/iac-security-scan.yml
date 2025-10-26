@@ -1,0 +1,35 @@
+name: IaC Security Scan
+on: [push]
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.12.2
+
+      - name: Run TFSec
+        uses: aquasecurity/tfsec-action@v1
+        with:
+          working_directory: ./infra
+          soft_fail: true
+
+      - name: Run Checkov
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: ./infra
+          framework: terraform
+          soft_fail: true
+          output_format: 'sarif'
+          output_file: 'checkov-report.sarif'
+
+      - name: Upload SARIF to GitHub Security
+        if: always() && hashFiles('checkov-report.sarif') != ''
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: checkov-report.sarif
